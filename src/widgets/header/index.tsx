@@ -54,7 +54,7 @@ const Header = () => {
             </Stack>
             <Stack flexDirection={"row"} gap={2}>
               <StyledLink href={"/cart"}>
-                Корзина $ {cartProductPrice || 0}
+                Корзина $ {cartProductPrice.toFixed(1) || 0}
               </StyledLink>
               <StyledLink href={"/favorites"}>
                 Избранные {favorites.length}
