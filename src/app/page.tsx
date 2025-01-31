@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { useMemo, Suspense } from "react";
 import CardList from "@/widgets/card-list";
 import { Stack } from "@mui/material";
 import Sort from "@/feature/sort";
@@ -10,7 +10,7 @@ import FilterSidebar from "@/feature/filter/ui/sidebar";
 import FilterModal from "@/feature/filter/ui/modal";
 import { useFetchProductsQuery } from "@/shared/store/api/products-api";
 
-export default function Home() {
+function HomeContent() {
   const { data: products, isLoading } = useFetchProductsQuery();
   const searchParams = useSearchParams();
 
@@ -73,5 +73,13 @@ export default function Home() {
         </Stack>
       </Stack>
     </Container>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Загрузка...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }

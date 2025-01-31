@@ -1,33 +1,13 @@
 "use client";
-
-import React, { useMemo } from "react";
-import {
-  AppBar,
-  Toolbar,
-  Box,
-  Stack,
-  Link as MuiLink,
-  Button,
-} from "@mui/material";
+import React from "react";
+import { AppBar, Toolbar, Box, Stack, Link as MuiLink } from "@mui/material";
 import Link from "next/link";
 import Container from "../container";
-import { useAppSelector } from "@/shared/hooks/redux";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const LeftBar = dynamic(() => import("./ui/left-bar"), { ssr: false });
 
 const Header = () => {
-  const pathname = usePathname();
-  const cartList = useAppSelector((store) => store.cartList.value);
-  const favorites = useAppSelector((state) => state.favoriteList.value);
-
-  const cartProductPrice = useMemo(() => {
-    return cartList.reduce(
-      (accum, elem) => accum + elem.price * (elem?.count ?? 1),
-      0
-    );
-  }, [cartList]);
-
   return (
     <AppBar
       position="static"
@@ -63,24 +43,7 @@ const Header = () => {
                 </MuiLink>
               </Box>
             </Stack>
-            <Stack flexDirection={"row"} gap={2}>
-              <Link href={"/cart"}>
-                <Button
-                  variant={pathname === "/cart" ? "contained" : "outlined"}
-                  endIcon={<ShoppingCartIcon />}
-                >
-                  ${cartProductPrice.toFixed(1)}
-                </Button>
-              </Link>
-              <Link href={"/favorites"}>
-                <Button
-                  variant={pathname === "/favorites" ? "contained" : "outlined"}
-                  endIcon={<FavoriteIcon />}
-                >
-                  {favorites.length}
-                </Button>
-              </Link>
-            </Stack>
+            <LeftBar />
           </Stack>
         </Toolbar>
       </Container>
