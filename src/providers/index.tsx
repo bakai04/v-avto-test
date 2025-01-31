@@ -10,8 +10,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <Provider store={setupStore}>
       <ThemeProvider theme={theme}>
-        {children}
         <CssBaseline />
+        {children}
       </ThemeProvider>
     </Provider>
   );

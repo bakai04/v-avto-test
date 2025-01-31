@@ -1,13 +1,22 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import { AppBar, Toolbar, Box, Stack, Link as MuiLink } from "@mui/material";
 import Link from "next/link";
 import Container from "../container";
-import dynamic from "next/dynamic";
-
-const LeftBar = dynamic(() => import("./ui/left-bar"), { ssr: false });
+import { useAppSelector } from "@/shared/hooks/redux";
+import { StyledLink } from "./styled";
 
 const Header = () => {
+  const cartList = useAppSelector((store) => store.cartList.value);
+  const favorites = useAppSelector((state) => state.favoriteList.value);
+
+  const cartProductPrice = useMemo(() => {
+    return cartList.reduce(
+      (accum, elem) => accum + elem.price * (elem?.count ?? 1),
+      0
+    );
+  }, [cartList]);
+
   return (
     <AppBar
       position="static"
@@ -43,7 +52,14 @@ const Header = () => {
                 </MuiLink>
               </Box>
             </Stack>
-            <LeftBar />
+            <Stack flexDirection={"row"} gap={2}>
+              <StyledLink href={"/cart"}>
+                Корзина $ {cartProductPrice || 0}
+              </StyledLink>
+              <StyledLink href={"/favorites"}>
+                Избранные {favorites.length}
+              </StyledLink>
+            </Stack>
           </Stack>
         </Toolbar>
       </Container>
