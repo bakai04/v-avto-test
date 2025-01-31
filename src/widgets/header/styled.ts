@@ -7,7 +7,9 @@ export const StyledLink = styled(Link)(({ theme }) => ({
   color: theme.palette.common.white,
   backgroundColor: theme.palette.primary.main,
   textDecoration: "none",
-  fontWeight: 600,
+  fontWeight: 500,
+  fontSize: "0.875rem",
+  textTransform: "uppercase",
   borderRadius: theme.shape.borderRadius,
   transition: "background-color 0.3s ease",
 
